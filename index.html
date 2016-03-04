@@ -1,0 +1,121 @@
+<html>
+   <head>
+	   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+      <script type="text/javascript" src="./libs/long_js/dist/long.js"></script>
+      <script type="text/javascript" src="./libs/bytebuffer_js/dist/bytebuffer.js"></script>
+      <script type="text/javascript" src="./libs/protobuf_js/dist/protobuf.js"></script>
+      <script type="text/javascript" src="miwebsocket.js"></script>
+      <script type="text/javascript" src="miobjectmethodfilter.js"></script>
+
+      <script type="text/javascript">
+         var miws_proto = null;
+         var mipt_proto = null;
+         var mimethod_proto_filter = null;
+         
+         var miws_json = null;
+         var mipt_json = null;
+         var mimethod_json_filter = null;
+         
+         function runinit()
+         {
+            SETMILOGMODE(MI_LOG_CONSOLE);
+
+            console.log("protobuff mode client start");
+            miws_proto = new miWebSocket("ws://localhost:9999");
+            mipt_proto = new miProtoProtocol();
+            mimethod_proto_filter = new miObjectMethodFilter();
+
+            mipt_proto.initBuilder(["./proto/sample.proto"]);
+            miws_proto.setMethodFilter(mimethod_proto_filter);
+            miws_proto.setProtocol(mipt_proto);
+            miws_proto.initalize();
+
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData1",getdataCallbackProto1);
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData2",getdataCallbackProto2);
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData3",getdataCallbackProto3);
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData4",getdataCallbackProto4);
+            miws_proto.setObjectMessageCallback(objectCallbackProto);
+
+            console.log("json mode client start");
+            miws_json = new miWebSocket("ws://localhost:8888");
+            mipt_json = new miJsonProtocol() ;
+            mimethod_json_filter = new miObjectMethodFilter();
+
+            mipt_json.initBuilder();
+            miws_json.setMethodFilter(mimethod_json_filter);
+            miws_json.setProtocol(mipt_json);
+            miws_json.initalize();
+
+            mimethod_json_filter.addFilterMethod("servicename","GeneralData1",getdataCallbackJson1);
+            mimethod_json_filter.addFilterMethod("servicename","GeneralData2",getdataCallbackJson2);
+            mimethod_json_filter.addFilterMethod("servicename","GeneralData3",getdataCallbackJson3);
+            mimethod_json_filter.addFilterMethod("servicename","GeneralData4",getdataCallbackJson4);
+            miws_json.setObjectMessageCallback(objectCallbackJson);
+         }
+         
+         function getdataCallbackProto1(obj)
+         {
+            console.log("call getdataCallbackProto1");
+            console.log(obj);
+         }
+         function getdataCallbackProto2(obj)
+         {
+            console.log("call getdataCallbackProto2");
+            console.log(obj);
+         }
+         function getdataCallbackProto3(obj)
+         {
+            console.log("call getdataCallbackProto3");
+            console.log(obj);
+         }
+         function getdataCallbackProto4(obj)
+         {
+            console.log("call getdataCallbackProto4");
+            console.log(obj);
+         }
+
+         function getdataCallbackJson1(obj)
+        {
+            console.log("call getdataCallbackJson1");
+            console.log(obj);
+         }
+         function getdataCallbackJson2(obj)
+         {
+            console.log("call getdataCallbackJson2");
+            console.log(obj);
+         }
+         function getdataCallbackJson3(obj)
+         {
+            console.log("call getdataCallbackJson3");
+            console.log(obj);
+         }
+         function getdataCallbackJson4(obj)
+         {
+            console.log("call getdataCallbackJson4");
+            console.log(obj);
+         }
+
+         function objectCallbackProto(obj)
+         {
+            console.log(obj);
+         }
+
+         function objectCallbackJson(obj)
+         {
+            console.log(obj);
+         }
+         function Testrun()
+         {
+
+         }
+      </script>
+		
+   </head>
+   <body onload="runinit()">
+   
+      <div id="sse">
+         <a href="javascript:Testrun()">Run client Cummunication</a>
+      </div>
+      
+   </body>
+</html>

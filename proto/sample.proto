@@ -1,0 +1,29 @@
+package Game;
+
+message MI {
+    required string servicename = 1;
+    optional int32 result = 2;
+    extensions 100 to max;
+}
+extend MI
+{
+  optional GeneralData generaldata = 101;
+  optional GeneralGameData generalgamedata = 102;
+}
+
+message GeneralData
+{
+  required string url = 1;
+  required string title = 2;
+  repeated int32 holcard = 3;
+  repeated int32 communitycard = 4;
+
+}
+
+message GeneralGameData
+{
+  required int32 card1 = 1;
+  required int32 card2 = 2;
+  required int32 card3 = 3;
+  required int32 card4 = 4;
+}
