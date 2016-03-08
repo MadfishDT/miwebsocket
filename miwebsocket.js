@@ -21,7 +21,7 @@ function SETMILOGMODE(mode)
 function MILOG(obj)
 {
 	if(logmode == MI_LOG_CONSOLE)
-	console.log(obj);
+	console.log(getMiTimeStamp() + " : " + obj);
 }
 
 function isNullorEmpty(value,lengthcheck)
@@ -63,14 +63,14 @@ function getMiTimeStamp()
 
 function ConvertBlobtoArrayBuffer(blob, miws)
 {
-	MILOG("stat data convert blob to arraybuffer:" + getMiTimeStamp());
+	MILOG("stat data convert blob to arraybuffer");
 	
 	var reader = new FileReader();
 
 	reader.onload = function()
 	{
   		var generatedBuffer = reader.result;
-  		MILOG("end data convert blob to arraybuffer:" + getMiTimeStamp());
+  		MILOG("end data convert blob to arraybuffer");
   		miws.onCallbackConvertBlob(generatedBuffer);
 	};
 
@@ -243,9 +243,9 @@ miWebSocket.prototype.onClose = function()
 
 miWebSocket.prototype.onCallbackConvertBlob = function(data)
 {
-	MILOG("protobuffer parsing start: " + getMiTimeStamp());
+	MILOG("protobuffer parsing start");
 	var obj = this.protocol.parsing(data);
-	MILOG("protobuffer parsing end: " + getMiTimeStamp());
+	MILOG("protobuffer parsing end");
 	if(this.objectmessagecallback !== null)
 	{
 		this.objectmessagecallback(obj);
@@ -266,7 +266,7 @@ miWebSocket.prototype.onMessage = function(evt)
 	MILOG("websocket receive message");
 	MILOG(evt);
 	var miws = this.parent;
-	MILOG("receive data from server time:" + getMiTimeStamp());
+	MILOG("receive data from server time:");
 	
 	
 	if(!isNullorEmpty(evt))
@@ -281,9 +281,9 @@ miWebSocket.prototype.onMessage = function(evt)
 		else
 		{
 			MILOG("receive data size: " + evt.data.length);
-			MILOG("not protobuff parsing start: " + getMiTimeStamp());
+			MILOG("not protobuff parsing start");
 			object = miws.protocol.parsing(data);
-			MILOG("not protobuff parsing end: " +  getMiTimeStamp());
+			MILOG("not protobuff parsing end");
 			MILOG(object);
 			miws.filter(object);
 			
