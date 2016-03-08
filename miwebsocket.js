@@ -306,10 +306,10 @@ miWebSocket.prototype.send = function(obj)
 
 }
 
-miWebSocket.prototype.onError = function()
+miWebSocket.prototype.onError = function(evt)
 {
 	MILOG("error websocket");
-	callFunction(this.errorcallback);
+	callFunction(this.errorcallback,evt);
 }
 
 miWebSocket.prototype.initalize = function(open, close, message , error)
