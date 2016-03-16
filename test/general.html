@@ -1,0 +1,118 @@
+<html>
+   <head>
+	   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+      <script type="text/javascript" src="../libs/long_js/dist/long.js"></script>
+      <script type="text/javascript" src="../libs/bytebuffer_js/dist/bytebuffer.js"></script>
+      <script type="text/javascript" src="../libs/protobuf_js/dist/protobuf.js"></script>
+      <script type="text/javascript" src="../miwebsocket.js"></script>
+      <script type="text/javascript" src="../miobjectmethodfilter.js"></script>
+
+      <script type="text/javascript">
+         var miws_proto = null;
+         var mipt_proto = null;
+         var mimethod_proto_filter = null;
+         var miws_array = new Array();
+         var clientcount = 0;
+         
+         var testtimmer = setInterval(startInfinitclient, 1000);
+         var clientArray = new Array();
+         function startInfinitclient()
+         {
+            createNewClientStart();
+         }
+         function createNewClientStart()
+         {
+            SETMILOGMODE(MI_LOG_CONSOLE);
+
+            console.log("protobuff mode client start");
+            miws_proto = new miWebSocket("ws://localhost:9999");
+            mipt_proto = new miProtoProtocol();
+            mimethod_proto_filter = new miObjectMethodFilter();
+
+            mipt_proto.initBuilder(["../proto/sample.proto"]);
+            miws_proto.setMethodFilter(mimethod_proto_filter);
+            miws_proto.setProtocol(mipt_proto);
+            miws_proto.initalize(null,closeclient,null,errorclient);
+
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData1",getdataCallbackProto1);
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData2",getdataCallbackProto2);
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData3",getdataCallbackProto3);
+            mimethod_proto_filter.addFilterMethod("servicename","GeneralData4",getdataCallbackProto4);
+            miws_proto.setObjectMessageCallback(objectCallbackProto);
+
+            clientArray[clientArray.length] = miws_proto;
+
+          }
+         function openclise()
+         {
+            clientcount++;
+            console.log("open client count: ", clientcount);
+         }
+         function closeclient()
+         {
+            clientcount--;
+            console.log("close client count: ", clientcount);
+            testtimmer.clearInterval();
+
+         }
+         function errorclient(evt)
+         {
+            clientcount--;
+            console.log("error client count: ", clientcount);
+            console.log("error client data: ", evt.data);
+             testtimmer.clearInterval();
+        
+         }
+         function getdataCallbackProto1(obj)
+         {
+            console.log("call getdataCallbackProto1");
+            console.log(obj);
+         }
+         function getdataCallbackProto2(obj)
+         {
+            console.log("call getdataCallbackProto2");
+            console.log(obj);
+         }
+         function getdataCallbackProto3(obj)
+         {
+            console.log("call getdataCallbackProto3");
+            console.log(obj);
+         }
+         function getdataCallbackProto4(obj)
+         {
+            console.log("call getdataCallbackProto4");
+            console.log(obj);
+         }
+
+        
+         function objectCallbackProto(obj)
+         {
+            console.log(obj);
+         }
+         function stopCreateClient()
+         {
+            clearInterval(testtimmer);  
+         }
+         function testSend()
+         {
+            console.log("send message all client to server");
+            
+            var index;
+            
+            for(index = 0; index < clientArray.length ; index++)
+            {
+               var text = "client message number is: " + index;
+               clientArray[index].sendtext(text);
+            }
+
+         }
+   </script>
+   </head>
+   <body onload="runinit()">
+      <div id="sse">
+         <a href="javascript:stopCreateClient()">Stop Try Makeing New Connection</a>
+         <a href="javascript:testSend()">Send Message Test</a>
+      </div>
+      
+   </body>
+</html>

@@ -9,6 +9,8 @@ extend MI
 {
   optional GeneralData generaldata = 101;
   optional GeneralGameData generalgamedata = 102;
+  optional GetLogoInfoResponse getlogoinforesponse = 103;
+  optional PrepareBuyInRequest preparebuyinreq = 104;
 }
 
 message GeneralData
@@ -26,4 +28,24 @@ message GeneralGameData
   required int32 card2 = 2;
   required int32 card3 = 3;
   required int32 card4 = 4;
+}
+
+message GetLogoInfoResponse
+{
+  required string LogoUrl = 1;
+  required string IconUrl = 2;
+}
+
+message PrepareBuyInRequest
+{
+    required Guid UserId = 1;
+    required Guid TableId = 2;
+    required int64 RequestId = 3;
+    required int64 TablePlayerId = 4;
+    required int64 Amount = 5;
+    required int64 Value = 6;
+}
+message Guid {
+  optional fixed64 lo = 1; // the first 8 bytes of the guid
+  optional fixed64 hi = 2; // the second 8 bytes of the guid
 }

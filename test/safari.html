@@ -25,11 +25,11 @@
             SETMILOGMODE(MI_LOG_CONSOLE);
 
             console.log("protobuff mode client start");
-            miws_proto = new miWebSocket("ws://localhost:9999");
+            miws_proto = new miWebSocket("ws://192.168.0.76:9999");
             mipt_proto = new miProtoProtocol();
             mimethod_proto_filter = new miObjectMethodFilter();
 
-            mipt_proto.initBuilder(["./proto/sample.proto"]);
+            mipt_proto.initBuilder(["../proto/sample.proto"]);
             miws_proto.setMethodFilter(mimethod_proto_filter);
             miws_proto.setProtocol(mipt_proto);
             miws_proto.initalize(null,closeclient,null,errorclient);

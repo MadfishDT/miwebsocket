@@ -298,7 +298,10 @@ miWebSocket.prototype.onMessage = function(evt)
 
 	callFunction(this.messagecallback);
 }
-
+miWebSocket.prototype.sendtext = function(message)
+{
+	this.websocket.send(message);
+}
 miWebSocket.prototype.send = function(obj)
 {
 	var buffer = this.protocol.packaging(obj);

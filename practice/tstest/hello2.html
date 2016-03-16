@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1 id="message"></h1>
+    <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+    <script src="https://google.github.io/traceur-compiler/bin/BrowserSystem.js"></script>
+    <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+    <script type="module">
+      class Greeter { 
+        greeting: string;
+        constructor(message: string) {
+        this.greeting = message;
+        }
+      greet() {
+        return "Hello, " + this.greeting;
+      }
+    }
+ 
+    var greeter = new Greeter("world");
+    console.log(greeter.greet());
+    </script>
+  </body>
+</html>

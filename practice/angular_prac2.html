@@ -27,19 +27,10 @@
         $scope.setValue = function() {
             $scope.fruits = aData[i = i ? 0 : 1];
         }
-        Object.observe(model, function(changes){
-
-    // 변경 사항들을 취합하여 이 비동기 콜백이 호출됩니다.
-    changes.forEach(function(change) {
-
-        // 무엇이 변경되었는지 확인합니다.
-        console.log(change.type, change.name, change.oldValue);
-    	});
 
 	});
-	});
 
-		
+	
     </script>
 </head>
 <body>
